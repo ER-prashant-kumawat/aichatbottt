@@ -7,7 +7,7 @@
     "dev": "npm-run-all --parallel backend frontend",
     "backend": "convex dev",
     "frontend": "vite",
-    "build": "npx convex deploy && vite build",
+    "build": "vite build",
     "deploy": "convex deploy"
   },
   "dependencies": {
