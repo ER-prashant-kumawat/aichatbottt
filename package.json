@@ -7,7 +7,7 @@
     "dev": "npm-run-all --parallel backend frontend",
     "backend": "convex dev",
     "frontend": "vite",
-    "build": "vite build",
+    "build": "npx convex codegen && vite build",
     "deploy": "convex deploy"
   },
   "dependencies": {
@@ -20,7 +20,7 @@
     "@types/leaflet": "^1.9.21",
     "@types/react-syntax-highlighter": "^15.5.13",
     "ai": "^4.0.0",
-    "convex": "^1.13.0",
+    "convex": "^1.34.1",
     "jspdf": "^4.2.1",
     "leaflet": "^1.9.4",
     "mammoth": "^1.12.0",
