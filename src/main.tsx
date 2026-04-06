@@ -5,7 +5,7 @@ import App from './App'
 import './index.css'
 
 // Initialize Convex client
-const convexUrl = import.meta.env.VITE_CONVEX_URL || 'http://localhost:8000'
+const convexUrl = import.meta.env.VITE_CONVEX_URL ? String(import.meta.env.VITE_CONVEX_URL) : 'http://localhost:8000'
 console.log('🔌 Connecting to Convex:', convexUrl)
 
 const convex = new ConvexReactClient(convexUrl)

@@ -69,10 +69,13 @@ export const getByCategory = query({
   },
 });
 
-// Delete document
+// Delete document (ownership check)
 export const deleteDocument = mutation({
-  args: { documentId: v.id("documents") },
-  handler: async (ctx, { documentId }) => {
+  args: { documentId: v.id("documents"), userId: v.id("users") },
+  handler: async (ctx, { documentId, userId }) => {
+    const doc = await ctx.db.get(documentId);
+    if (!doc) throw new Error("Document not found");
+    if (doc.userId !== userId) throw new Error("Unauthorized: Not your document");
     await ctx.db.delete(documentId);
   },
 });
