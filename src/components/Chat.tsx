@@ -57,7 +57,7 @@ function renderMessageContent(content: string) {
       {parts.map((part, i) => {
         if (part.type === 'code') {
           return (
-            <div key={i} style={{ margin: '12px 0', position: 'relative' }}>
+            <div key={i} className="chat-code-block" style={{ margin: '12px 0', position: 'relative' }}>
               {/* Code header */}
               <div style={{
                 display: 'flex', justifyContent: 'space-between', alignItems: 'center',
@@ -289,6 +289,66 @@ const chatStyles = `
   textarea::-webkit-scrollbar { width: 4px; }
   textarea::-webkit-scrollbar-track { background: transparent; }
   textarea::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+
+  @media (max-width: 768px) {
+    .chat-navbar {
+      padding: 8px 12px !important;
+      min-height: 44px !important;
+    }
+    .chat-model-btn {
+      font-size: 12px !important;
+      padding: 6px 10px !important;
+    }
+    .chat-model-dropdown {
+      width: 100% !important;
+      min-width: unset !important;
+      max-width: calc(100vw - 32px) !important;
+      left: 8px !important;
+      right: 8px !important;
+      position: fixed !important;
+    }
+    .chat-messages {
+      padding: 12px !important;
+    }
+    .chat-messages .chat-user-bubble {
+      max-width: 85% !important;
+      padding: 10px 14px !important;
+      font-size: 14px !important;
+    }
+    .chat-input-area {
+      padding: 10px 10px 16px !important;
+    }
+    .chat-input-box {
+      padding: 8px 12px !important;
+    }
+    .chat-templates-grid {
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 6px !important;
+    }
+    .chat-templates-popup {
+      max-width: calc(100vw - 40px) !important;
+      flex-wrap: wrap !important;
+      gap: 4px !important;
+    }
+    .chat-code-block pre {
+      overflow-x: auto !important;
+      max-width: calc(100vw - 40px) !important;
+      font-size: 12px !important;
+    }
+    .chat-welcome-title {
+      font-size: 22px !important;
+    }
+    .chat-welcome-logo {
+      width: 50px !important;
+      height: 50px !important;
+    }
+    .chat-multi-model-grid {
+      grid-template-columns: 1fr !important;
+    }
+    .chat-export-btn span.chat-export-label {
+      display: none !important;
+    }
+  }
 `
 
 // ===========================
@@ -469,7 +529,7 @@ export default function Chat({ threadId, userId, sidebarOpen, onToggleSidebar }:
       <style>{chatStyles}</style>
 
       {/* Navbar */}
-      <div style={{
+      <div className="chat-navbar" style={{
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         padding: '10px 20px', backgroundColor: '#171717',
         borderBottom: '1px solid rgba(255,255,255,0.06)', minHeight: '48px',
@@ -498,7 +558,7 @@ export default function Chat({ threadId, userId, sidebarOpen, onToggleSidebar }:
                 padding: '7px 12px', fontSize: '12px', fontFamily: 'inherit', display: 'flex', alignItems: 'center', gap: '6px',
               }}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" /></svg>
-                Export
+                <span className="chat-export-label">Export</span>
               </button>
               {showExportMenu && (
                 <div style={{
@@ -556,7 +616,7 @@ export default function Chat({ threadId, userId, sidebarOpen, onToggleSidebar }:
 
           {/* Model Selector */}
           <div style={{ position: 'relative' }}>
-            <button onClick={() => setModelDropdownOpen(!modelDropdownOpen)} style={{
+            <button className="chat-model-btn" onClick={() => setModelDropdownOpen(!modelDropdownOpen)} style={{
               display: 'flex', alignItems: 'center', gap: '8px', padding: '8px 14px',
               backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)',
               borderRadius: '10px', color: '#ececec', cursor: 'pointer', fontSize: '13px',
@@ -573,7 +633,7 @@ export default function Chat({ threadId, userId, sidebarOpen, onToggleSidebar }:
               </svg>
             </button>
             {modelDropdownOpen && (
-              <div style={{
+              <div className="chat-model-dropdown" style={{
                 position: 'absolute', top: '100%', right: 0, marginTop: '6px',
                 backgroundColor: '#2f2f2f', border: '1px solid rgba(255,255,255,0.1)',
                 borderRadius: '12px', padding: '6px', minWidth: '280px', maxHeight: '420px', overflowY: 'auto', zIndex: 100,
@@ -626,10 +686,10 @@ export default function Chat({ threadId, userId, sidebarOpen, onToggleSidebar }:
         {!hasMessages ? (
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0 20px', marginBottom: '40px', gap: '24px' }}>
             <AnimatedLogo size={70} />
-            <h1 style={{ color: '#ececec', fontSize: '28px', fontWeight: 600, margin: 0 }}>What can I help with?</h1>
+            <h1 className="chat-welcome-title" style={{ color: '#ececec', fontSize: '28px', fontWeight: 600, margin: 0 }}>What can I help with?</h1>
 
             {/* Prompt Templates Grid */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px', maxWidth: '600px', width: '100%' }}>
+            <div className="chat-templates-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px', maxWidth: '600px', width: '100%' }}>
               {PROMPT_TEMPLATES.map((tmpl) => (
                 <button key={tmpl.label} onClick={() => { setInput(tmpl.prompt); textareaRef.current?.focus() }} style={{
                   padding: '14px 12px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.08)',
@@ -647,7 +707,7 @@ export default function Chat({ threadId, userId, sidebarOpen, onToggleSidebar }:
             </div>
           </div>
         ) : (
-          <div style={{ maxWidth: '1100px', width: '100%', margin: '0 auto', padding: '20px 16px', display: 'flex', flexDirection: 'column', gap: '24px' }}>
+          <div className="chat-messages" style={{ maxWidth: '1100px', width: '100%', margin: '0 auto', padding: '20px 16px', display: 'flex', flexDirection: 'column', gap: '24px' }}>
             {queriedMessages.map((msg: any) => {
               const isMultiModel = msg.role === 'assistant' && msg.content?.startsWith('___MULTI_MODEL___')
               let multiModelData: Array<{ name: string; response: string }> = []
@@ -657,7 +717,7 @@ export default function Chat({ threadId, userId, sidebarOpen, onToggleSidebar }:
 
               return msg.role === 'user' ? (
                 <div key={msg._id} style={{ display: 'flex', justifyContent: 'flex-end', animation: 'fadeIn 0.3s ease-out' }}>
-                  <div style={{ backgroundColor: '#303030', color: '#ececec', padding: '12px 18px', borderRadius: '20px', maxWidth: '70%', fontSize: '15px', lineHeight: '1.6', wordWrap: 'break-word', whiteSpace: 'pre-wrap' }}>
+                  <div className="chat-user-bubble" style={{ backgroundColor: '#303030', color: '#ececec', padding: '12px 18px', borderRadius: '20px', maxWidth: '70%', fontSize: '15px', lineHeight: '1.6', wordWrap: 'break-word', whiteSpace: 'pre-wrap' }}>
                     {msg.content}
                   </div>
                 </div>
@@ -689,7 +749,7 @@ export default function Chat({ threadId, userId, sidebarOpen, onToggleSidebar }:
                             <div style={{ fontSize: '15px', fontWeight: 700, color: '#ececec', marginBottom: '3px' }}>Compare AI Responses</div>
                             <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.35)' }}>Pick the best response</div>
                           </div>
-                          <div style={{ display: 'grid', gridTemplateColumns: `repeat(${multiModelData.length}, 1fr)`, gap: '12px' }}>
+                          <div className="chat-multi-model-grid" style={{ display: 'grid', gridTemplateColumns: `repeat(${multiModelData.length}, 1fr)`, gap: '12px' }}>
                             {multiModelData.map((item, idx) => (
                               <div key={idx} style={{
                                 backgroundColor: '#2a2a2a', border: '1px solid rgba(255,255,255,0.08)',
@@ -771,7 +831,7 @@ export default function Chat({ threadId, userId, sidebarOpen, onToggleSidebar }:
       </div>
 
       {/* Input Area */}
-      <div style={{ padding: hasMessages ? '16px 16px 24px' : '0 16px 24px', display: 'flex', justifyContent: 'center' }}>
+      <div className="chat-input-area" style={{ padding: hasMessages ? '16px 16px 24px' : '0 16px 24px', display: 'flex', justifyContent: 'center' }}>
         <form onSubmit={handleSend} style={{ maxWidth: '768px', width: '100%', position: 'relative' }}>
           {/* Template selector above input when messages exist */}
           {hasMessages && (
@@ -784,7 +844,7 @@ export default function Chat({ threadId, userId, sidebarOpen, onToggleSidebar }:
                 <span style={{ fontSize: '13px' }}>⚡</span> Templates
               </button>
               {showTemplates && (
-                <div style={{
+                <div className="chat-templates-popup" style={{
                   position: 'absolute', bottom: '100%', left: 0, marginBottom: '4px',
                   background: '#2f2f2f', border: '1px solid rgba(255,255,255,0.1)',
                   borderRadius: '12px', padding: '6px', display: 'flex', flexWrap: 'wrap', gap: '4px',
@@ -807,7 +867,7 @@ export default function Chat({ threadId, userId, sidebarOpen, onToggleSidebar }:
             </div>
           )}
 
-          <div style={{
+          <div className="chat-input-box" style={{
             display: 'flex', alignItems: 'flex-end', backgroundColor: '#2f2f2f',
             borderRadius: '26px', border: '1px solid rgba(255,255,255,0.1)', padding: '10px 16px',
           }}>

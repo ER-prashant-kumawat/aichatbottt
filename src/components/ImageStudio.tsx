@@ -138,7 +138,7 @@ export default function ImageStudio({ userId, onBack }: ImageStudioProps) {
   return (
     <div style={{ height: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
       {/* Top Bar */}
-      <div style={{
+      <div className="is-topbar" style={{
         padding: '16px 24px',
         borderBottom: '1px solid rgba(255,255,255,0.06)',
         display: 'flex',
@@ -166,18 +166,18 @@ export default function ImageStudio({ userId, onBack }: ImageStudioProps) {
         </div>
 
         {/* Tabs */}
-        <div style={{ marginLeft: 'auto', display: 'flex', gap: '8px' }}>
-          <button onClick={() => setActiveTab('generate')} style={btnStyle(activeTab === 'generate')}>
+        <div className="is-tabs" style={{ marginLeft: 'auto', display: 'flex', gap: '8px' }}>
+          <button className="is-tab-btn" onClick={() => setActiveTab('generate')} style={btnStyle(activeTab === 'generate')}>
             Text to Image
           </button>
-          <button onClick={() => setActiveTab('remove-bg')} style={btnStyle(activeTab === 'remove-bg')}>
+          <button className="is-tab-btn" onClick={() => setActiveTab('remove-bg')} style={btnStyle(activeTab === 'remove-bg')}>
             Remove Background
           </button>
         </div>
       </div>
 
       {/* Content */}
-      <div style={{ flex: 1, overflow: 'auto', padding: '24px' }}>
+      <div className="is-content" style={{ flex: 1, overflow: 'auto', padding: '24px' }}>
         {activeTab === 'generate' ? (
           <div style={{ maxWidth: '900px', margin: '0 auto' }}>
             {/* Prompt Input */}
@@ -258,7 +258,7 @@ export default function ImageStudio({ userId, onBack }: ImageStudioProps) {
                 <label style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)', display: 'block', marginBottom: '8px' }}>
                   AI Model
                 </label>
-                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                <div className="is-model-grid" style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                   {IMAGE_MODELS.map((model) => (
                     <button
                       key={model.id}
@@ -385,7 +385,7 @@ export default function ImageStudio({ userId, onBack }: ImageStudioProps) {
                 <h3 style={{ color: '#fff', fontSize: '16px', marginBottom: '16px' }}>
                   Generated Images ({generatedImages.length})
                 </h3>
-                <div style={{
+                <div className="is-image-grid" style={{
                   display: 'grid',
                   gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
                   gap: '16px',
@@ -463,6 +463,7 @@ export default function ImageStudio({ userId, onBack }: ImageStudioProps) {
 
               {!uploadedImage ? (
                 <div
+                  className="is-upload-area"
                   onClick={() => fileInputRef.current?.click()}
                   style={{
                     border: '2px dashed rgba(255,255,255,0.15)',
@@ -566,6 +567,45 @@ export default function ImageStudio({ userId, onBack }: ImageStudioProps) {
 
       <style>{`
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        @media (max-width: 768px) {
+          .is-topbar {
+            padding: 12px 16px !important;
+            flex-wrap: wrap !important;
+            gap: 10px !important;
+          }
+          .is-tabs {
+            margin-left: 0 !important;
+            width: 100% !important;
+            order: 3 !important;
+          }
+          .is-tab-btn {
+            flex: 1 !important;
+            padding: 8px 12px !important;
+            font-size: 12px !important;
+            text-align: center !important;
+          }
+          .is-content {
+            padding: 16px !important;
+          }
+          .is-model-grid {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 6px !important;
+          }
+          .is-model-grid button {
+            width: 100% !important;
+            padding: 6px 10px !important;
+            font-size: 11px !important;
+          }
+          .is-image-grid {
+            grid-template-columns: 1fr !important;
+            gap: 12px !important;
+          }
+          .is-upload-area {
+            padding: 30px 16px !important;
+          }
+        }
       `}</style>
     </div>
   )

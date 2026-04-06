@@ -175,7 +175,7 @@ export default function AIHumanizer({ userId, onBack }: AIHumanizerProps) {
   const currentMode = MODES.find(m => m.id === selectedMode) || MODES[0]
 
   return (
-    <div style={{
+    <div className="ah-root" style={{
       height: '100%',
       display: 'flex',
       flexDirection: 'column',
@@ -184,7 +184,7 @@ export default function AIHumanizer({ userId, onBack }: AIHumanizerProps) {
       overflow: 'hidden',
     }}>
       {/* Header */}
-      <div style={{
+      <div className="ah-header" style={{
         padding: '16px 24px',
         borderBottom: '1px solid rgba(255,255,255,0.06)',
         display: 'flex',
@@ -192,7 +192,7 @@ export default function AIHumanizer({ userId, onBack }: AIHumanizerProps) {
         justifyContent: 'space-between',
         flexShrink: 0,
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+        <div className="ah-header-left" style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
           <button
             onClick={onBack}
             style={{
@@ -223,7 +223,7 @@ export default function AIHumanizer({ userId, onBack }: AIHumanizerProps) {
         </div>
 
         {/* Tab Switcher */}
-        <div style={{
+        <div className="ah-tabs" style={{
           display: 'flex', gap: '4px', backgroundColor: 'rgba(255,255,255,0.05)',
           borderRadius: '10px', padding: '3px',
         }}>
@@ -254,12 +254,12 @@ export default function AIHumanizer({ userId, onBack }: AIHumanizerProps) {
 
       {activeTab === 'detect' ? (
         /* ========== AI DETECTION TAB ========== */
-        <div style={{
+        <div className="ah-content" style={{
           flex: 1, overflow: 'auto', padding: '20px 24px',
           display: 'flex', flexDirection: 'column', gap: '16px',
         }}>
           {/* Detection Header */}
-          <div style={{
+          <div className="ah-detect-header" style={{
             padding: '16px 20px',
             background: 'linear-gradient(135deg, rgba(239,68,68,0.08), rgba(249,115,22,0.08))',
             border: '1px solid rgba(239,68,68,0.15)',
@@ -324,7 +324,7 @@ export default function AIHumanizer({ userId, onBack }: AIHumanizerProps) {
           </div>
 
           {/* Detect Button */}
-          <div style={{ display: 'flex', gap: '10px' }}>
+          <div className="ah-detect-buttons" style={{ display: 'flex', gap: '10px' }}>
             <button
               onClick={handleDetect}
               disabled={!detectText.trim() || isDetecting}
@@ -412,7 +412,7 @@ export default function AIHumanizer({ userId, onBack }: AIHumanizerProps) {
           {detectionResult && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
               {/* Main Score Card */}
-              <div style={{
+              <div className="ah-score-card" style={{
                 padding: '24px',
                 background: `linear-gradient(135deg, ${getScoreColor(detectionResult.aiScore)}10, ${getScoreColor(detectionResult.aiScore)}05)`,
                 border: `1px solid ${getScoreColor(detectionResult.aiScore)}25`,
@@ -473,7 +473,7 @@ export default function AIHumanizer({ userId, onBack }: AIHumanizerProps) {
 
               {/* Detailed Breakdown */}
               {detectionResult.breakdown && (
-                <div style={{
+                <div className="ah-breakdown-card" style={{
                   padding: '16px 20px',
                   backgroundColor: 'rgba(255,255,255,0.03)',
                   border: '1px solid rgba(255,255,255,0.06)',
@@ -572,7 +572,7 @@ export default function AIHumanizer({ userId, onBack }: AIHumanizerProps) {
 
               {/* Score Breakdown Bar */}
               {detectionResult.method === 'hybrid' && (
-                <div style={{
+                <div className="ah-score-bar" style={{
                   padding: '12px 16px',
                   backgroundColor: 'rgba(255,255,255,0.03)',
                   borderRadius: '10px',
@@ -613,7 +613,7 @@ export default function AIHumanizer({ userId, onBack }: AIHumanizerProps) {
           )}
         </div>
       ) : activeTab === 'humanize' ? (
-        <div style={{
+        <div className="ah-content" style={{
           flex: 1, overflow: 'auto', padding: '20px 24px',
           display: 'flex', flexDirection: 'column', gap: '16px',
         }}>
@@ -622,7 +622,7 @@ export default function AIHumanizer({ userId, onBack }: AIHumanizerProps) {
             <label style={{ fontSize: '13px', color: 'rgba(255,255,255,0.5)', marginBottom: '8px', display: 'block', fontWeight: 500 }}>
               Humanization Mode
             </label>
-            <div style={{
+            <div className="ah-mode-grid" style={{
               display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)',
               gap: '8px',
             }}>
@@ -661,7 +661,7 @@ export default function AIHumanizer({ userId, onBack }: AIHumanizerProps) {
           </div>
 
           {/* Intensity & Model Row */}
-          <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+          <div className="ah-intensity-model-row" style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
             {/* Intensity Slider */}
             <div style={{ flex: 1, minWidth: '250px' }}>
               <label style={{ fontSize: '13px', color: 'rgba(255,255,255,0.5)', marginBottom: '8px', display: 'block', fontWeight: 500 }}>
@@ -724,7 +724,7 @@ export default function AIHumanizer({ userId, onBack }: AIHumanizerProps) {
           </div>
 
           {/* Input / Output Panels */}
-          <div style={{
+          <div className="ah-io-grid" style={{
             display: 'grid', gridTemplateColumns: '1fr 1fr',
             gap: '16px', flex: 1, minHeight: '300px',
           }}>
@@ -866,7 +866,7 @@ export default function AIHumanizer({ userId, onBack }: AIHumanizerProps) {
           )}
 
           {/* Action Buttons */}
-          <div style={{ display: 'flex', gap: '10px', flexShrink: 0 }}>
+          <div className="ah-action-buttons" style={{ display: 'flex', gap: '10px', flexShrink: 0 }}>
             <button
               onClick={handleHumanize}
               disabled={!inputText.trim() || isProcessing}
@@ -954,7 +954,7 @@ export default function AIHumanizer({ userId, onBack }: AIHumanizerProps) {
 
           {/* Word Count Comparison */}
           {outputText && (
-            <div style={{
+            <div className="ah-word-comparison" style={{
               padding: '12px 16px',
               backgroundColor: 'rgba(255,255,255,0.03)',
               borderRadius: '10px',
@@ -1013,6 +1013,7 @@ export default function AIHumanizer({ userId, onBack }: AIHumanizerProps) {
                 return (
                   <div
                     key={item._id}
+                    className="ah-history-item"
                     style={{
                       padding: '14px 16px',
                       backgroundColor: 'rgba(255,255,255,0.03)',
@@ -1021,7 +1022,7 @@ export default function AIHumanizer({ userId, onBack }: AIHumanizerProps) {
                       transition: 'all 0.2s',
                     }}
                   >
-                    <div style={{
+                    <div className="ah-history-meta" style={{
                       display: 'flex', justifyContent: 'space-between',
                       alignItems: 'center', marginBottom: '8px',
                     }}>
@@ -1075,7 +1076,7 @@ export default function AIHumanizer({ userId, onBack }: AIHumanizerProps) {
                       </div>
                     </div>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                    <div className="ah-history-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
                       <div>
                         <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.3)', marginBottom: '4px', textTransform: 'uppercase', fontWeight: 600 }}>
                           Original
@@ -1111,10 +1112,107 @@ export default function AIHumanizer({ userId, onBack }: AIHumanizerProps) {
         </div>
       )}
 
-      {/* Spin animation */}
+      {/* Spin animation + Mobile responsive */}
       <style>{`
         @keyframes spin {
           to { transform: rotate(360deg); }
+        }
+        @media (max-width: 768px) {
+          .ah-root {
+            overflow-y: auto !important;
+          }
+          .ah-header {
+            padding: 10px 12px !important;
+            flex-direction: column !important;
+            gap: 10px !important;
+          }
+          .ah-header-left {
+            gap: 10px !important;
+          }
+          .ah-header-left h1 {
+            font-size: 17px !important;
+          }
+          .ah-tabs {
+            width: 100% !important;
+            justify-content: center !important;
+          }
+          .ah-tabs button {
+            padding: 6px 10px !important;
+            font-size: 12px !important;
+          }
+          .ah-content {
+            padding: 12px !important;
+            gap: 12px !important;
+          }
+          .ah-detect-header {
+            padding: 12px !important;
+          }
+          .ah-detect-header h3 {
+            font-size: 14px !important;
+          }
+          .ah-detect-buttons {
+            flex-direction: column !important;
+          }
+          .ah-detect-buttons button {
+            width: 100% !important;
+          }
+          .ah-mode-grid {
+            grid-template-columns: 1fr 1fr !important;
+          }
+          .ah-mode-grid button {
+            padding: 10px !important;
+          }
+          .ah-intensity-model-row {
+            flex-direction: column !important;
+            gap: 12px !important;
+          }
+          .ah-intensity-model-row > div {
+            min-width: 0 !important;
+            width: 100% !important;
+          }
+          .ah-io-grid {
+            grid-template-columns: 1fr !important;
+            min-height: 200px !important;
+          }
+          .ah-io-grid textarea {
+            min-height: 120px !important;
+          }
+          .ah-action-buttons {
+            flex-direction: column !important;
+          }
+          .ah-action-buttons button {
+            width: 100% !important;
+          }
+          .ah-word-comparison {
+            flex-direction: column !important;
+            gap: 8px !important;
+          }
+          .ah-word-comparison > div[style*="width: 1px"] {
+            display: none !important;
+          }
+          .ah-breakdown-card {
+            padding: 12px !important;
+          }
+          .ah-score-card {
+            padding: 16px !important;
+          }
+          .ah-score-bar {
+            flex-direction: column !important;
+            gap: 8px !important;
+          }
+          .ah-score-bar > div[style*="width: 1px"] {
+            display: none !important;
+          }
+          .ah-history-item {
+            padding: 10px 12px !important;
+          }
+          .ah-history-meta {
+            flex-direction: column !important;
+            gap: 6px !important;
+          }
+          .ah-history-grid {
+            grid-template-columns: 1fr !important;
+          }
         }
       `}</style>
     </div>

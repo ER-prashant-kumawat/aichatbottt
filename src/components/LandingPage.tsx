@@ -205,6 +205,52 @@ const landingStyles = `
   .cosmic-section {
     perspective: 1000px;
   }
+
+  /* ===== MOBILE RESPONSIVE ===== */
+  @media (max-width: 768px) {
+    .landing-nav-links { display: none !important; }
+    .landing-hamburger { display: flex !important; }
+    .landing-mobile-menu { display: flex !important; }
+    .solar-system-desktop { display: none !important; }
+    .hero-content-wrapper {
+      flex-direction: column !important;
+      padding: 0 20px !important;
+      text-align: center !important;
+    }
+    .hero-text-content {
+      text-align: center !important;
+      max-width: 100% !important;
+      flex: 1 1 auto !important;
+    }
+    .hero-text-content h1 { font-size: 32px !important; }
+    .hero-text-content .hero-subtitle { font-size: 16px !important; letter-spacing: 3px !important; }
+    .hero-text-content p { font-size: 14px !important; max-width: 100% !important; }
+    .hero-cta-buttons { justify-content: center !important; }
+    .hero-cta-buttons button { padding: 12px 28px !important; font-size: 14px !important; }
+    .hero-stats { justify-content: center !important; gap: 30px !important; }
+    .features-section { padding: 80px 20px 60px !important; }
+    .features-section h2 { font-size: 28px !important; }
+    .features-grid { grid-template-columns: 1fr !important; gap: 16px !important; }
+    .feature-card { padding: 24px 20px !important; }
+    .about-section { padding: 80px 20px 60px !important; }
+    .about-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
+    .about-grid h2 { font-size: 28px !important; }
+    .about-rings { width: 250px !important; height: 250px !important; }
+    .signin-section { padding: 80px 16px !important; }
+    .signin-form { padding: 32px 24px !important; max-width: 100% !important; }
+    .signin-form h2 { font-size: 24px !important; }
+    .landing-footer { padding: 24px 20px !important; flex-direction: column !important; text-align: center !important; }
+  }
+
+  @media (max-width: 480px) {
+    .hero-text-content h1 { font-size: 26px !important; }
+    .hero-cta-buttons { flex-direction: column !important; }
+    .hero-cta-buttons button { width: 100% !important; }
+    .hero-stats { flex-direction: row !important; gap: 20px !important; }
+    .features-section h2 { font-size: 24px !important; }
+    .about-grid h2 { font-size: 24px !important; }
+    .signin-form { padding: 24px 18px !important; }
+  }
 `
 
 // ===== DEEP SPACE STAR FIELD =====
@@ -488,6 +534,7 @@ export default function LandingPage({ onUserSet }: LandingPageProps) {
   const [scrolled, setScrolled] = useState(false)
   const [activeSection, setActiveSection] = useState('hero')
   const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set(['hero']))
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
   const convex = useConvex()
 
@@ -608,35 +655,35 @@ export default function LandingPage({ onUserSet }: LandingPageProps) {
       {/* ============================== */}
       <nav style={{
         position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000,
-        padding: '0 48px', height: '72px',
+        padding: '0 clamp(16px, 4vw, 48px)', height: '64px',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        backgroundColor: scrolled ? 'rgba(3,0,20,0.92)' : 'transparent',
-        backdropFilter: scrolled ? 'blur(24px) saturate(180%)' : 'none',
+        backgroundColor: scrolled || mobileMenuOpen ? 'rgba(3,0,20,0.95)' : 'transparent',
+        backdropFilter: scrolled || mobileMenuOpen ? 'blur(24px) saturate(180%)' : 'none',
         borderBottom: scrolled ? '1px solid rgba(138,43,226,0.15)' : 'none',
         transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
       }}>
         {/* Logo */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '14px', cursor: 'pointer' }}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}
           onClick={() => scrollTo('hero')}>
           <div style={{
-            width: '40px', height: '40px', borderRadius: '12px',
+            width: '36px', height: '36px', borderRadius: '10px',
             background: 'linear-gradient(135deg, #8B5CF6, #6366F1)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             boxShadow: '0 0 24px rgba(138,43,226,0.4)',
             position: 'relative', overflow: 'hidden',
           }}>
             <div style={{
-              position: 'absolute', inset: 0, borderRadius: '12px',
+              position: 'absolute', inset: 0, borderRadius: '10px',
               background: 'linear-gradient(135deg, transparent, rgba(255,255,255,0.15), transparent)',
             }} />
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="12" cy="12" r="3" />
               <circle cx="12" cy="12" r="8" strokeDasharray="4 3" />
               <circle cx="12" cy="12" r="11" strokeDasharray="2 4" opacity="0.5" />
             </svg>
           </div>
           <span style={{
-            fontSize: '22px', fontWeight: 800, fontFamily: 'Rajdhani, sans-serif',
+            fontSize: '20px', fontWeight: 800, fontFamily: 'Rajdhani, sans-serif',
             letterSpacing: '2px',
             background: 'linear-gradient(90deg, #A78BFA, #818CF8, #C084FC)',
             WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
@@ -645,8 +692,8 @@ export default function LandingPage({ onUserSet }: LandingPageProps) {
           </span>
         </div>
 
-        {/* Nav Links */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '36px' }}>
+        {/* Desktop Nav Links */}
+        <div className="landing-nav-links" style={{ display: 'flex', alignItems: 'center', gap: '36px' }}>
           {[
             { label: 'Home', id: 'hero' },
             { label: 'Features', id: 'features' },
@@ -675,7 +722,54 @@ export default function LandingPage({ onUserSet }: LandingPageProps) {
             Get Started
           </button>
         </div>
+
+        {/* Mobile Hamburger */}
+        <button className="landing-hamburger" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} style={{
+          display: 'none', background: 'none', border: 'none', color: '#A78BFA',
+          cursor: 'pointer', padding: '8px', flexDirection: 'column', gap: '5px',
+          alignItems: 'center', justifyContent: 'center',
+        }}>
+          <span style={{ width: '22px', height: '2px', backgroundColor: '#A78BFA', borderRadius: '2px', transition: 'all 0.3s', transform: mobileMenuOpen ? 'rotate(45deg) translateY(7px)' : 'none' }} />
+          <span style={{ width: '22px', height: '2px', backgroundColor: '#A78BFA', borderRadius: '2px', transition: 'all 0.3s', opacity: mobileMenuOpen ? 0 : 1 }} />
+          <span style={{ width: '22px', height: '2px', backgroundColor: '#A78BFA', borderRadius: '2px', transition: 'all 0.3s', transform: mobileMenuOpen ? 'rotate(-45deg) translateY(-7px)' : 'none' }} />
+        </button>
       </nav>
+
+      {/* Mobile Menu */}
+      {mobileMenuOpen && (
+        <div className="landing-mobile-menu" style={{
+          position: 'fixed', top: '64px', left: 0, right: 0, zIndex: 999,
+          backgroundColor: 'rgba(3,0,20,0.97)', backdropFilter: 'blur(24px)',
+          borderBottom: '1px solid rgba(138,43,226,0.2)',
+          display: 'flex', flexDirection: 'column', padding: '16px 24px',
+          gap: '8px', animation: 'fadeInUp 0.3s ease-out',
+        }}>
+          {[
+            { label: 'Home', id: 'hero' },
+            { label: 'Features', id: 'features' },
+            { label: 'About', id: 'about' },
+            { label: 'Sign In', id: 'signin' },
+          ].map(link => (
+            <button key={link.id} onClick={() => { scrollTo(link.id); setMobileMenuOpen(false) }} style={{
+              background: activeSection === link.id ? 'rgba(138,43,226,0.1)' : 'none',
+              border: 'none', color: activeSection === link.id ? '#A78BFA' : 'rgba(255,255,255,0.6)',
+              fontSize: '16px', fontWeight: 500, cursor: 'pointer', padding: '12px 16px',
+              borderRadius: '10px', textAlign: 'left', fontFamily: 'Inter, sans-serif',
+            }}>
+              {link.label}
+            </button>
+          ))}
+          <button onClick={() => { scrollTo('signin'); setMobileMenuOpen(false) }} style={{
+            padding: '12px 24px', marginTop: '8px',
+            background: 'linear-gradient(135deg, #8B5CF6, #6366F1)',
+            border: 'none', borderRadius: '10px', color: '#fff',
+            fontSize: '15px', fontWeight: 600, cursor: 'pointer',
+            fontFamily: 'Inter, sans-serif',
+          }}>
+            Get Started
+          </button>
+        </div>
+      )}
 
       {/* ============================== */}
       {/* ======= HERO SECTION ========= */}
@@ -720,15 +814,15 @@ export default function LandingPage({ onUserSet }: LandingPageProps) {
         <CosmicOcean />
 
         {/* Hero Layout: Left = Solar System, Right = Text */}
-        <div style={{
+        <div className="hero-content-wrapper" style={{
           position: 'relative', zIndex: 10,
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           width: '100%', maxWidth: '1400px', padding: '0 40px',
           gap: '40px', margin: '0 auto',
         }}>
 
-          {/* LEFT - Solar System */}
-          <div style={{
+          {/* LEFT - Solar System (hidden on mobile via CSS) */}
+          <div className="solar-system-desktop" style={{
             flex: '0 0 auto',
             animation: 'fadeInScale 1.8s ease-out',
           }}>
@@ -736,7 +830,7 @@ export default function LandingPage({ onUserSet }: LandingPageProps) {
           </div>
 
           {/* RIGHT - Text Content */}
-          <div style={{
+          <div className="hero-text-content" style={{
             flex: '1 1 500px', maxWidth: '560px',
             textAlign: 'left',
             animation: 'fadeInUp 1.2s ease-out 0.5s both',
@@ -785,7 +879,7 @@ export default function LandingPage({ onUserSet }: LandingPageProps) {
               Explore infinite wisdom in every conversation.
             </p>
 
-            <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+            <div className="hero-cta-buttons" style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
               <button className="cta-btn" onClick={() => scrollTo('signin')} style={{
                 padding: '16px 44px',
                 background: 'linear-gradient(135deg, #8B5CF6, #6366F1, #7C3AED)',
@@ -811,7 +905,7 @@ export default function LandingPage({ onUserSet }: LandingPageProps) {
             </div>
 
             {/* Stats */}
-            <div style={{
+            <div className="hero-stats" style={{
               display: 'flex', gap: '50px', marginTop: '44px',
               padding: '20px 0', borderTop: '1px solid rgba(138,43,226,0.15)',
             }}>
@@ -861,7 +955,7 @@ export default function LandingPage({ onUserSet }: LandingPageProps) {
       {/* ============================== */}
       {/* ====== FEATURES SECTION ====== */}
       {/* ============================== */}
-      <section id="features" className="cosmic-section" style={{
+      <section id="features" className="cosmic-section features-section" style={{
         minHeight: '100vh', padding: '140px 48px 100px',
         position: 'relative', overflow: 'hidden',
         background: 'linear-gradient(180deg, #010008 0%, #050020 15%, #080030 50%, #050020 85%, #010008 100%)',
@@ -923,7 +1017,7 @@ export default function LandingPage({ onUserSet }: LandingPageProps) {
         </div>
 
         {/* Feature Grid */}
-        <div style={{
+        <div className="features-grid" style={{
           display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
           gap: '28px', maxWidth: '1100px', margin: '0 auto',
           position: 'relative', zIndex: 5,
@@ -977,7 +1071,7 @@ export default function LandingPage({ onUserSet }: LandingPageProps) {
       {/* ============================== */}
       {/* ======= ABOUT SECTION ======== */}
       {/* ============================== */}
-      <section id="about" className="cosmic-section" style={{
+      <section id="about" className="cosmic-section about-section" style={{
         minHeight: '100vh', padding: '140px 48px 100px',
         position: 'relative', overflow: 'hidden',
         background: 'radial-gradient(ellipse at 30% 40%, #0a0030 0%, #050018 40%, #030014 70%, #010008 100%)',
@@ -1002,7 +1096,7 @@ export default function LandingPage({ onUserSet }: LandingPageProps) {
           }} />
         </div>
 
-        <div style={{
+        <div className="about-grid" style={{
           maxWidth: '1100px', width: '100%', position: 'relative', zIndex: 5,
           display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '80px', alignItems: 'center',
           animation: visibleSections.has('about') ? 'fadeInUp 1s ease-out both' : 'none',
@@ -1011,7 +1105,7 @@ export default function LandingPage({ onUserSet }: LandingPageProps) {
           {/* Left - Cosmic visual */}
           <div style={{ display: 'flex', justifyContent: 'center', position: 'relative' }}>
             {/* Concentric rings */}
-            <div style={{ position: 'relative', width: '350px', height: '350px' }}>
+            <div className="about-rings" style={{ position: 'relative', width: '350px', height: '350px' }}>
               {[350, 280, 210, 140].map((size, i) => (
                 <div key={i} style={{
                   position: 'absolute',
@@ -1100,7 +1194,7 @@ export default function LandingPage({ onUserSet }: LandingPageProps) {
       {/* ============================== */}
       {/* ====== SIGN IN SECTION ======= */}
       {/* ============================== */}
-      <section id="signin" className="cosmic-section" style={{
+      <section id="signin" className="cosmic-section signin-section" style={{
         minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
         position: 'relative', padding: '100px 48px', overflow: 'hidden',
         background: 'radial-gradient(ellipse at 50% 50%, #0a0030 0%, #050018 40%, #030014 100%)',
@@ -1136,7 +1230,7 @@ export default function LandingPage({ onUserSet }: LandingPageProps) {
           animation: visibleSections.has('signin') ? 'fadeInUp 0.8s ease-out both' : 'none',
           opacity: visibleSections.has('signin') ? 1 : 0,
         }}>
-          <form onSubmit={handleSubmit} style={{
+          <form onSubmit={handleSubmit} className="signin-form" style={{
             padding: '52px 44px', borderRadius: '24px',
             backgroundColor: 'rgba(138,43,226,0.04)',
             border: '1px solid rgba(138,43,226,0.15)',
@@ -1377,7 +1471,7 @@ export default function LandingPage({ onUserSet }: LandingPageProps) {
       {/* ============================== */}
       {/* ========= FOOTER ============= */}
       {/* ============================== */}
-      <footer style={{
+      <footer className="landing-footer" style={{
         padding: '36px 48px', backgroundColor: '#010008',
         borderTop: '1px solid rgba(138,43,226,0.1)',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',

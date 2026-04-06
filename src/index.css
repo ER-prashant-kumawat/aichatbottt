@@ -205,11 +205,42 @@ a:hover {
 
 @media (max-width: 768px) {
   ::-webkit-scrollbar {
-    width: 6px;
+    width: 4px;
   }
 
   body {
     font-size: 13px;
+  }
+
+  /* Mobile sidebar overlay */
+  .mobile-sidebar-overlay {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    background: rgba(0,0,0,0.5) !important;
+    z-index: 999 !important;
+  }
+
+  .mobile-sidebar {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    z-index: 1000 !important;
+    width: 260px !important;
+    min-width: 260px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 12px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 3px;
   }
 }
 

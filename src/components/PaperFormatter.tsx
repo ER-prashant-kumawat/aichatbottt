@@ -531,15 +531,25 @@ export default function PaperFormatter({ userId, onBack }: PaperFormatterProps) 
   // ============= LANDING PAGE =============
   if (showLanding && !isGenerating) {
     return (
-      <div style={{ height: '100%', overflowY: 'auto', background: 'linear-gradient(180deg, #0d0d0d 0%, #1a1a2e 100%)', padding: '40px 20px' }}>
+      <div className="pf-landing-container" style={{ height: '100%', overflowY: 'auto', background: 'linear-gradient(180deg, #0d0d0d 0%, #1a1a2e 100%)', padding: '40px 20px' }}>
         <style>{`
           @keyframes pfGlow { 0%, 100% { text-shadow: 0 0 20px rgba(139,92,246,0.3); } 50% { text-shadow: 0 0 40px rgba(139,92,246,0.6), 0 0 60px rgba(59,130,246,0.3); } }
           .upload-zone { transition: all 0.3s; cursor: pointer; }
           .upload-zone:hover { border-color: rgba(59,130,246,0.5) !important; background: rgba(59,130,246,0.05) !important; transform: translateY(-2px); }
           @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+          @media (max-width: 768px) {
+            .pf-landing-container { padding: 20px 12px !important; }
+            .pf-landing-inner { max-width: 100% !important; }
+            .pf-landing-inner > h1 { font-size: 24px !important; }
+            .pf-generate-panel { padding: 16px !important; }
+            .pf-author-pages-row { flex-direction: column !important; }
+            .pf-author-pages-row > div { width: 100% !important; }
+            .pf-upload-options { flex-direction: column !important; gap: 12px !important; }
+            .pf-back-btn { top: 10px !important; left: 10px !important; padding: 6px 12px !important; }
+          }
         `}</style>
 
-        <div style={{ maxWidth: '800px', margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <div className="pf-landing-inner" style={{ maxWidth: '800px', margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <h1 style={{ fontSize: '36px', fontWeight: 700, textAlign: 'center', marginBottom: '12px', background: 'linear-gradient(135deg, #a855f7, #3b82f6)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontStyle: 'italic', animation: 'pfGlow 3s infinite' }}>
             Research Paper Formatter
           </h1>
@@ -548,7 +558,7 @@ export default function PaperFormatter({ userId, onBack }: PaperFormatterProps) 
           </p>
 
           {/* ====== AI GENERATE FULL PAPER - MAIN FEATURE ====== */}
-          <div style={{
+          <div className="pf-generate-panel" style={{
             width: '100%', padding: '28px', borderRadius: '20px', marginBottom: '28px',
             background: 'linear-gradient(135deg, rgba(139,92,246,0.08), rgba(59,130,246,0.08))',
             border: '1px solid rgba(139,92,246,0.2)', position: 'relative', overflow: 'hidden',
@@ -575,7 +585,7 @@ export default function PaperFormatter({ userId, onBack }: PaperFormatterProps) 
             </div>
 
             {/* Author & Pages Row */}
-            <div style={{ display: 'flex', gap: '12px', marginBottom: '16px' }}>
+            <div className="pf-author-pages-row" style={{ display: 'flex', gap: '12px', marginBottom: '16px' }}>
               <div style={{ flex: 1 }}>
                 <label style={{ color: 'rgba(255,255,255,0.5)', fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px', display: 'block', marginBottom: '5px' }}>Author Name(s)</label>
                 <input value={generateAuthor} onChange={e => setGenerateAuthor(e.target.value)}
@@ -641,7 +651,7 @@ export default function PaperFormatter({ userId, onBack }: PaperFormatterProps) 
           </div>
 
           {/* ====== UPLOAD / SCRATCH OPTIONS ====== */}
-          <div style={{ display: 'flex', gap: '20px', marginBottom: '24px', width: '100%' }}>
+          <div className="pf-upload-options" style={{ display: 'flex', gap: '20px', marginBottom: '24px', width: '100%' }}>
             <div className="upload-zone" onClick={() => fileInputRef.current?.click()} onDragOver={handleDragOver} onDragLeave={handleDragLeave} onDrop={handleDrop}
               style={{ flex: 1, padding: '28px 20px', borderRadius: '16px', textAlign: 'center', background: uploadDragging ? 'rgba(59,130,246,0.08)' : 'rgba(255,255,255,0.03)', border: `2px dashed ${uploadDragging ? 'rgba(59,130,246,0.5)' : 'rgba(255,255,255,0.1)'}` }}>
               <div style={{ width: '48px', height: '48px', borderRadius: '50%', margin: '0 auto 12px', background: 'linear-gradient(135deg, rgba(59,130,246,0.15), rgba(59,130,246,0.05))', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -661,7 +671,7 @@ export default function PaperFormatter({ userId, onBack }: PaperFormatterProps) 
           </div>
         </div>
 
-        <button onClick={onBack} style={{ position: 'absolute', top: '20px', left: '20px', background: 'rgba(255,255,255,0.06)', border: 'none', color: 'rgba(255,255,255,0.6)', padding: '8px 16px', borderRadius: '8px', cursor: 'pointer', fontSize: '13px', display: 'flex', alignItems: 'center', gap: '6px', fontFamily: 'inherit' }}>
+        <button className="pf-back-btn" onClick={onBack} style={{ position: 'absolute', top: '20px', left: '20px', background: 'rgba(255,255,255,0.06)', border: 'none', color: 'rgba(255,255,255,0.6)', padding: '8px 16px', borderRadius: '8px', cursor: 'pointer', fontSize: '13px', display: 'flex', alignItems: 'center', gap: '6px', fontFamily: 'inherit' }}>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6" /></svg> Back
         </button>
         <input ref={fileInputRef} type="file" accept=".txt,.md,.tex" style={{ display: 'none' }} onChange={handleFileUpload} />
@@ -719,11 +729,130 @@ export default function PaperFormatter({ userId, onBack }: PaperFormatterProps) 
         @keyframes slideInFromRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
         .pf-color-btn { width: 20px; height: 20px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.15); cursor: pointer; transition: transform 0.1s; }
         .pf-color-btn:hover { transform: scale(1.2); border-color: #fff; }
+
+        @media (max-width: 768px) {
+          .pf-landing-container {
+            padding: 20px 12px !important;
+          }
+          .pf-landing-inner {
+            max-width: 100% !important;
+          }
+          .pf-landing-inner h1 {
+            font-size: 24px !important;
+          }
+          .pf-landing-inner p {
+            font-size: 13px !important;
+          }
+          .pf-generate-panel {
+            padding: 16px !important;
+          }
+          .pf-generate-panel h2 {
+            font-size: 16px !important;
+          }
+          .pf-author-pages-row {
+            flex-direction: column !important;
+            gap: 10px !important;
+          }
+          .pf-author-pages-row > div {
+            width: 100% !important;
+          }
+          .pf-upload-options {
+            flex-direction: column !important;
+            gap: 12px !important;
+          }
+          .pf-topbar {
+            flex-direction: column !important;
+            gap: 8px !important;
+            padding: 8px 10px !important;
+          }
+          .pf-topbar-left {
+            width: 100% !important;
+          }
+          .pf-topbar-left input {
+            width: 120px !important;
+          }
+          .pf-topbar-views {
+            width: 100% !important;
+            justify-content: center !important;
+          }
+          .pf-topbar-actions {
+            width: 100% !important;
+            flex-wrap: wrap !important;
+            justify-content: center !important;
+          }
+          .pf-toolbar {
+            padding: 6px 8px !important;
+            overflow-x: auto !important;
+            flex-wrap: nowrap !important;
+            -webkit-overflow-scrolling: touch !important;
+          }
+          .pf-editor {
+            padding: 16px 12px !important;
+            font-size: 13px !important;
+          }
+          .pf-editor h1 { font-size: 20px !important; }
+          .pf-editor h2 { font-size: 16px !important; }
+          .pf-editor h3 { font-size: 14px !important; }
+          .pf-editor th, .pf-editor td {
+            padding: 6px 8px !important;
+          }
+          .pf-preview-container {
+            overflow-x: auto !important;
+          }
+          .pf-preview-page {
+            padding: 24px 20px !important;
+            min-height: auto !important;
+          }
+          .pf-preview-page h2 { font-size: 13px !important; }
+          .pf-preview-page h3 { font-size: 11px !important; }
+          .pf-preview-page th, .pf-preview-page td {
+            padding: 4px 6px !important;
+            font-size: 10px !important;
+          }
+          .pf-main-content {
+            flex-direction: column !important;
+          }
+          .pf-ai-panel, .pf-research-panel {
+            width: 100% !important;
+            max-height: 50vh !important;
+            border-left: none !important;
+            border-top: 1px solid rgba(255,255,255,0.06) !important;
+          }
+          .pf-page-nav {
+            padding: 6px 8px !important;
+            gap: 6px !important;
+            flex-wrap: wrap !important;
+            justify-content: center !important;
+          }
+          .pf-page-nav button {
+            padding: 3px 8px !important;
+            font-size: 11px !important;
+          }
+          .pf-progress-bar {
+            padding: 10px 12px !important;
+          }
+          .pf-progress-bar span {
+            font-size: 11px !important;
+          }
+          .pf-section-tags {
+            gap: 4px !important;
+          }
+          .pf-section-tags span {
+            font-size: 8px !important;
+            padding: 2px 6px !important;
+          }
+          .pf-back-btn {
+            top: 10px !important;
+            left: 10px !important;
+            padding: 6px 12px !important;
+            font-size: 12px !important;
+          }
+        }
       `}</style>
 
       {/* ======= GENERATION PROGRESS BAR ======= */}
       {isGenerating && (
-        <div style={{ flexShrink: 0, padding: '12px 20px', background: 'linear-gradient(135deg, rgba(139,92,246,0.08), rgba(59,130,246,0.08))', borderBottom: '1px solid rgba(139,92,246,0.15)' }}>
+        <div className="pf-progress-bar" style={{ flexShrink: 0, padding: '12px 20px', background: 'linear-gradient(135deg, rgba(139,92,246,0.08), rgba(59,130,246,0.08))', borderBottom: '1px solid rgba(139,92,246,0.15)' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <div style={{ width: '14px', height: '14px', border: '2px solid rgba(139,92,246,0.3)', borderTopColor: '#a855f7', borderRadius: '50%', animation: 'pfSpin 0.6s linear infinite' }} />
@@ -736,7 +865,7 @@ export default function PaperFormatter({ userId, onBack }: PaperFormatterProps) 
           <div style={{ height: '4px', borderRadius: '2px', background: 'rgba(255,255,255,0.06)', overflow: 'hidden' }}>
             <div style={{ height: '100%', borderRadius: '2px', background: 'linear-gradient(90deg, #a855f7, #3b82f6)', width: `${genProgress}%`, transition: 'width 0.5s ease' }} />
           </div>
-          <div style={{ display: 'flex', gap: '6px', marginTop: '8px', flexWrap: 'wrap' }}>
+          <div className="pf-section-tags" style={{ display: 'flex', gap: '6px', marginTop: '8px', flexWrap: 'wrap' }}>
             {buildSectionsForPages(generatePages).map((sec: { key: string; heading: string }, i: number) => (
               <span key={sec.key} style={{
                 padding: '2px 8px', borderRadius: '4px', fontSize: '9px', fontWeight: 500,
@@ -752,14 +881,14 @@ export default function PaperFormatter({ userId, onBack }: PaperFormatterProps) 
       )}
 
       {/* ======= TOP BAR ======= */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 16px', borderBottom: '1px solid rgba(255,255,255,0.06)', background: 'rgba(255,255,255,0.02)', flexShrink: 0 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+      <div className="pf-topbar" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 16px', borderBottom: '1px solid rgba(255,255,255,0.06)', background: 'rgba(255,255,255,0.02)', flexShrink: 0 }}>
+        <div className="pf-topbar-left" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <button onClick={() => { if (!isGenerating) setShowLanding(true) }} className="pf-tb" style={{ padding: '5px 6px' }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6" /></svg>
           </button>
           <input value={paperTitle} onChange={e => setPaperTitle(e.target.value)} style={{ background: 'transparent', border: 'none', color: '#fff', fontSize: '14px', fontWeight: 600, outline: 'none', width: '180px', fontFamily: 'inherit' }} />
         </div>
-        <div style={{ display: 'flex', gap: '2px', background: 'rgba(255,255,255,0.04)', borderRadius: '8px', padding: '2px' }}>
+        <div className="pf-topbar-views" style={{ display: 'flex', gap: '2px', background: 'rgba(255,255,255,0.04)', borderRadius: '8px', padding: '2px' }}>
           {([
             { mode: 'edit' as ViewMode, label: 'Edit', icon: <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" /></svg> },
             { mode: 'split' as ViewMode, label: 'Split', icon: <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2" /><line x1="12" y1="3" x2="12" y2="21" /></svg> },
@@ -770,7 +899,7 @@ export default function PaperFormatter({ userId, onBack }: PaperFormatterProps) 
             </button>
           ))}
         </div>
-        <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+        <div className="pf-topbar-actions" style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
           <div style={{ position: 'relative' }} onClick={e => e.stopPropagation()}>
             <button onClick={() => { closeAllDropdowns(); setShowFormatDropdown(!showFormatDropdown) }} className="pf-tb" style={{ gap: '4px', padding: '5px 12px', fontSize: '12px' }}>
               {format} <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="6 9 12 15 18 9" /></svg>
@@ -802,7 +931,7 @@ export default function PaperFormatter({ userId, onBack }: PaperFormatterProps) 
 
       {/* ======= FORMATTING TOOLBAR ======= */}
       {(viewMode === 'edit' || viewMode === 'split') && (
-        <div style={{ display: 'flex', alignItems: 'center', gap: '2px', padding: '6px 16px', borderBottom: '1px solid rgba(255,255,255,0.06)', background: 'rgba(255,255,255,0.015)', flexShrink: 0, flexWrap: 'wrap', position: 'relative' }}
+        <div className="pf-toolbar" style={{ display: 'flex', alignItems: 'center', gap: '2px', padding: '6px 16px', borderBottom: '1px solid rgba(255,255,255,0.06)', background: 'rgba(255,255,255,0.015)', flexShrink: 0, flexWrap: 'wrap', position: 'relative' }}
           onClick={e => e.stopPropagation()}>
 
           {/* Undo / Redo */}
@@ -1045,7 +1174,7 @@ export default function PaperFormatter({ userId, onBack }: PaperFormatterProps) 
       )}
 
       {/* ======= MAIN CONTENT ======= */}
-      <div style={{ flex: 1, display: 'flex', overflow: 'hidden' }}>
+      <div className="pf-main-content" style={{ flex: 1, display: 'flex', overflow: 'hidden' }}>
 
         {/* ======= EDITOR ======= */}
         {(viewMode === 'edit' || viewMode === 'split') && (
@@ -1067,9 +1196,9 @@ export default function PaperFormatter({ userId, onBack }: PaperFormatterProps) 
 
         {/* ======= PREVIEW - PAGINATED ======= */}
         {(viewMode === 'preview' || viewMode === 'split') && (
-          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', background: '#e8e8e8' }}>
+          <div className="pf-preview-container" style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', background: '#e8e8e8' }}>
             {/* Page Navigation Bar */}
-            <div style={{
+            <div className="pf-page-nav" style={{
               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px',
               padding: '8px 16px', background: '#d4d4d4', borderBottom: '1px solid #bbb',
               flexShrink: 0,
@@ -1202,7 +1331,7 @@ export default function PaperFormatter({ userId, onBack }: PaperFormatterProps) 
 
         {/* ======= AI PANEL ======= */}
         {showAIPanel && (
-          <div className="research-panel-enter" style={{ width: '320px', flexShrink: 0, borderLeft: '1px solid rgba(255,255,255,0.06)', background: '#111', overflowY: 'auto', display: 'flex', flexDirection: 'column' }}>
+          <div className="research-panel-enter pf-ai-panel" style={{ width: '320px', flexShrink: 0, borderLeft: '1px solid rgba(255,255,255,0.06)', background: '#111', overflowY: 'auto', display: 'flex', flexDirection: 'column' }}>
             <div style={{ padding: '14px', borderBottom: '1px solid rgba(255,255,255,0.06)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <h3 style={{ color: '#fff', fontSize: '13px', fontWeight: 600, margin: 0, display: 'flex', alignItems: 'center', gap: '6px' }}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a855f7" strokeWidth="2"><path d="M12 2a4 4 0 0 1 4 4c0 1.5-.8 2.8-2 3.5V11h3a3 3 0 0 1 3 3v1h-2v-1a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1v1H4v-1a3 3 0 0 1 3-3h3V9.5C8.8 8.8 8 7.5 8 6a4 4 0 0 1 4-4z" /><circle cx="7" cy="19" r="2" /><circle cx="17" cy="19" r="2" /><circle cx="12" cy="19" r="2" /></svg>
@@ -1251,7 +1380,7 @@ export default function PaperFormatter({ userId, onBack }: PaperFormatterProps) 
 
         {/* ======= RESEARCH PANEL ======= */}
         {showResearchPanel && (
-          <div className="research-panel-enter" style={{ width: '320px', flexShrink: 0, borderLeft: '1px solid rgba(255,255,255,0.06)', background: '#111', overflowY: 'auto', display: 'flex', flexDirection: 'column' }}>
+          <div className="research-panel-enter pf-research-panel" style={{ width: '320px', flexShrink: 0, borderLeft: '1px solid rgba(255,255,255,0.06)', background: '#111', overflowY: 'auto', display: 'flex', flexDirection: 'column' }}>
             <div style={{ padding: '14px', borderBottom: '1px solid rgba(255,255,255,0.06)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <h3 style={{ color: '#fff', fontSize: '13px', fontWeight: 600, margin: 0, display: 'flex', alignItems: 'center', gap: '6px' }}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#06b6d4" strokeWidth="2"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>

@@ -306,12 +306,119 @@ export default function ProfileDashboard({ userId, onBack, onNavigate }: Profile
         @keyframes dashSlide { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: translateX(0); } }
         @keyframes pulseRing { 0%, 100% { box-shadow: 0 0 0 0 rgba(25,195,125,0.2); } 50% { box-shadow: 0 0 0 8px rgba(25,195,125,0); } }
         @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+        @media (max-width: 768px) {
+          .dashboard-root {
+            padding: 16px 8px !important;
+          }
+          .profile-container {
+            max-width: 100% !important;
+            padding: 0 4px !important;
+          }
+          .profile-header {
+            flex-direction: column !important;
+            text-align: center !important;
+            padding: 20px 16px !important;
+            gap: 14px !important;
+          }
+          .profile-header-info {
+            align-items: center !important;
+          }
+          .profile-header-info h1 {
+            font-size: 20px !important;
+          }
+          .profile-header-info > div {
+            justify-content: center !important;
+          }
+          .profile-avatar {
+            width: 56px !important;
+            height: 56px !important;
+            font-size: 22px !important;
+          }
+          .profile-avatar-badge {
+            width: 18px !important;
+            height: 18px !important;
+          }
+          .profile-score-badge {
+            padding: 8px 16px !important;
+          }
+          .profile-score-badge span:first-child {
+            font-size: 20px !important;
+          }
+          .profile-tabs {
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch !important;
+          }
+          .tab-btn {
+            padding: 7px 14px !important;
+            font-size: 12px !important;
+          }
+          .profile-stats-grid {
+            grid-template-columns: 1fr 1fr !important;
+            gap: 10px !important;
+          }
+          .profile-card {
+            padding: 16px !important;
+          }
+          .profile-card .stat-value {
+            font-size: 24px !important;
+          }
+          .profile-card .sparkline-wrap svg {
+            width: 80px !important;
+          }
+          .profile-actions-grid {
+            grid-template-columns: 1fr !important;
+            gap: 10px !important;
+          }
+          .profile-two-col {
+            grid-template-columns: 1fr !important;
+            gap: 12px !important;
+          }
+          .profile-activity-section {
+            padding: 16px !important;
+          }
+          .profile-activity-section .timeline-item {
+            padding: 8px 10px !important;
+          }
+          .profile-activity-rings {
+            gap: 8px !important;
+          }
+          .profile-activity-rings svg {
+            width: 60px !important;
+            height: 60px !important;
+          }
+          .profile-analytics-summary {
+            grid-template-columns: 1fr 1fr !important;
+            gap: 10px !important;
+          }
+          .profile-analytics-summary > div {
+            padding: 14px !important;
+          }
+          .profile-analytics-summary .analytics-value {
+            font-size: 22px !important;
+          }
+          .profile-analytics-two-col {
+            grid-template-columns: 1fr !important;
+          }
+          .profile-bar-chart {
+            height: 120px !important;
+            gap: 8px !important;
+            padding: 0 4px !important;
+          }
+          .action-card {
+            padding: 14px !important;
+          }
+          .action-card .action-icon {
+            width: 38px !important;
+            height: 38px !important;
+          }
+        }
       `}</style>
 
-      <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+      <div className="profile-container" style={{ maxWidth: '1100px', margin: '0 auto' }}>
 
         {/* === HEADER === */}
-        <div style={{
+        <div className="profile-header" style={{
           display: 'flex', alignItems: 'center', gap: '20px', padding: '28px 32px',
           borderRadius: '20px', marginBottom: '24px', position: 'relative', overflow: 'hidden',
           background: 'linear-gradient(135deg, rgba(25,195,125,0.08), rgba(91,95,199,0.08), rgba(228,75,170,0.08))',
@@ -327,7 +434,7 @@ export default function ProfileDashboard({ userId, onBack, onNavigate }: Profile
 
           {/* Avatar with ring */}
           <div style={{ position: 'relative' }}>
-            <div style={{
+            <div className="profile-avatar" style={{
               width: '78px', height: '78px', borderRadius: '50%',
               background: 'linear-gradient(135deg, #19c37d, #5b5fc7, #e44baa)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -337,7 +444,7 @@ export default function ProfileDashboard({ userId, onBack, onNavigate }: Profile
             }}>
               {user?.name?.charAt(0)?.toUpperCase() || '?'}
             </div>
-            <div style={{
+            <div className="profile-avatar-badge" style={{
               position: 'absolute', bottom: -2, right: -2, width: '22px', height: '22px',
               borderRadius: '50%', background: '#19c37d', border: '3px solid #171717',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -346,7 +453,7 @@ export default function ProfileDashboard({ userId, onBack, onNavigate }: Profile
             </div>
           </div>
 
-          <div style={{ flex: 1, zIndex: 1 }}>
+          <div className="profile-header-info" style={{ flex: 1, zIndex: 1 }}>
             <h1 style={{ color: '#fff', fontSize: '26px', fontWeight: 700, margin: '0 0 4px 0', letterSpacing: '-0.3px' }}>
               {user?.name || 'Loading...'}
             </h1>
@@ -368,7 +475,7 @@ export default function ProfileDashboard({ userId, onBack, onNavigate }: Profile
           <div style={{
             display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', zIndex: 1,
           }}>
-            <div style={{
+            <div className="profile-score-badge" style={{
               padding: '10px 20px', borderRadius: '14px',
               background: 'linear-gradient(135deg, rgba(25,195,125,0.15), rgba(91,95,199,0.15))',
               border: '1px solid rgba(25,195,125,0.2)',
@@ -381,7 +488,7 @@ export default function ProfileDashboard({ userId, onBack, onNavigate }: Profile
         </div>
 
         {/* === TAB NAVIGATION === */}
-        <div style={{
+        <div className="profile-tabs" style={{
           display: 'flex', gap: '8px', marginBottom: '20px',
           animation: 'dashFadeIn 0.6s ease-out 0.1s both',
         }}>
@@ -397,12 +504,12 @@ export default function ProfileDashboard({ userId, onBack, onNavigate }: Profile
         {activeTab === 'overview' && (
           <>
             {/* Stats Grid - 3D Cards */}
-            <div style={{
+            <div className="profile-stats-grid" style={{
               display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '14px', marginBottom: '24px',
               animation: 'dashFadeIn 0.6s ease-out 0.15s both',
             }}>
               {statCards.map((stat) => (
-                <div key={stat.id} className="dash-card"
+                <div key={stat.id} className="dash-card profile-card"
                   onMouseMove={(e) => handleMouseMove(e, stat.id)}
                   onMouseLeave={handleMouseLeave}
                   style={{
@@ -416,11 +523,11 @@ export default function ProfileDashboard({ userId, onBack, onNavigate }: Profile
                       <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '12px', margin: '0 0 4px 0', fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                         {stat.label}
                       </p>
-                      <p style={{ color: '#fff', fontSize: '32px', fontWeight: 700, margin: 0, lineHeight: 1 }}>
+                      <p className="stat-value" style={{ color: '#fff', fontSize: '32px', fontWeight: 700, margin: 0, lineHeight: 1 }}>
                         {stat.value}
                       </p>
                     </div>
-                    <Sparkline data={stat.sparkData} color={stat.color} height={36} />
+                    <span className="sparkline-wrap"><Sparkline data={stat.sparkData} color={stat.color} height={36} /></span>
                   </div>
                   <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: '11px', margin: 0 }}>{stat.sub}</p>
                 </div>
@@ -435,7 +542,7 @@ export default function ProfileDashboard({ userId, onBack, onNavigate }: Profile
               <h3 style={{ color: '#fff', fontSize: '15px', fontWeight: 600, margin: '0 0 14px 0' }}>
                 Quick Actions
               </h3>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
+              <div className="profile-actions-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
                 {quickActions.map((action) => (
                   <div key={action.id} className="action-card"
                     onClick={() => onNavigate?.(action.id)}
@@ -444,7 +551,7 @@ export default function ProfileDashboard({ userId, onBack, onNavigate }: Profile
                       background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)',
                       display: 'flex', alignItems: 'center', gap: '14px',
                     }}>
-                    <div style={{
+                    <div className="action-icon" style={{
                       width: '44px', height: '44px', borderRadius: '12px',
                       background: action.gradient,
                       display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
@@ -461,12 +568,12 @@ export default function ProfileDashboard({ userId, onBack, onNavigate }: Profile
             </div>
 
             {/* Two Column: Recent Activity + Activity Rings */}
-            <div style={{
+            <div className="profile-two-col" style={{
               display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: '16px',
               animation: 'dashFadeIn 0.6s ease-out 0.35s both',
             }}>
               {/* Recent Activity Timeline */}
-              <div style={{
+              <div className="profile-activity-section" style={{
                 padding: '22px', borderRadius: '16px',
                 background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)',
               }}>
@@ -508,14 +615,14 @@ export default function ProfileDashboard({ userId, onBack, onNavigate }: Profile
               </div>
 
               {/* Activity Rings + Breakdown */}
-              <div style={{
+              <div className="profile-activity-section" style={{
                 padding: '22px', borderRadius: '16px',
                 background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)',
               }}>
                 <h3 style={{ color: '#fff', fontSize: '14px', fontWeight: 600, margin: '0 0 20px 0' }}>
                   Usage Breakdown
                 </h3>
-                <div style={{ display: 'flex', justifyContent: 'space-around', marginBottom: '24px' }}>
+                <div className="profile-activity-rings" style={{ display: 'flex', justifyContent: 'space-around', marginBottom: '24px' }}>
                   <ActivityRing percentage={chatRingPct} color="#19c37d" label="Chat" />
                   <ActivityRing percentage={creativeRingPct} color="#ec4899" label="Creative" />
                   <ActivityRing percentage={researchRingPct} color="#a855f7" label="Research" />
@@ -552,14 +659,14 @@ export default function ProfileDashboard({ userId, onBack, onNavigate }: Profile
         {activeTab === 'activity' && (
           <div style={{ animation: 'dashFadeIn 0.5s ease-out' }}>
             {/* 7-Day Activity Bar Chart */}
-            <div style={{
+            <div className="profile-activity-section" style={{
               padding: '24px', borderRadius: '16px', marginBottom: '20px',
               background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)',
             }}>
               <h3 style={{ color: '#fff', fontSize: '14px', fontWeight: 600, margin: '0 0 20px 0' }}>
                 Last 7 Days Activity
               </h3>
-              <div style={{ display: 'flex', alignItems: 'flex-end', gap: '12px', height: '160px', padding: '0 8px' }}>
+              <div className="profile-bar-chart" style={{ display: 'flex', alignItems: 'flex-end', gap: '12px', height: '160px', padding: '0 8px' }}>
                 {last7Days.map((day, i) => {
                   const maxVal = Math.max(...last7Days.map(d => d.total), 1)
                   const heightPct = (day.total / maxVal) * 100
@@ -592,7 +699,7 @@ export default function ProfileDashboard({ userId, onBack, onNavigate }: Profile
             </div>
 
             {/* Full Activity Timeline */}
-            <div style={{
+            <div className="profile-activity-section" style={{
               padding: '24px', borderRadius: '16px',
               background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)',
             }}>
@@ -645,7 +752,7 @@ export default function ProfileDashboard({ userId, onBack, onNavigate }: Profile
         {activeTab === 'analytics' && (
           <div style={{ animation: 'dashFadeIn 0.5s ease-out' }}>
             {/* Summary Cards */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', marginBottom: '20px' }}>
+            <div className="profile-analytics-summary" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', marginBottom: '20px' }}>
               {[
                 { label: 'Total Items', value: totalChats + totalCreations + totalResearch + totalPapers + totalNotes, color: '#19c37d' },
                 { label: 'Days Active', value: daysActive, color: '#06b6d4' },
@@ -656,14 +763,14 @@ export default function ProfileDashboard({ userId, onBack, onNavigate }: Profile
                   padding: '20px', borderRadius: '14px', textAlign: 'center',
                   background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)',
                 }}>
-                  <p style={{ color: item.color, fontSize: '28px', fontWeight: 700, margin: '0 0 4px 0' }}>{item.value}</p>
+                  <p className="analytics-value" style={{ color: item.color, fontSize: '28px', fontWeight: 700, margin: '0 0 4px 0' }}>{item.value}</p>
                   <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '11px', margin: 0, textTransform: 'uppercase', letterSpacing: '0.5px' }}>{item.label}</p>
                 </div>
               ))}
             </div>
 
             {/* Content Distribution */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '20px' }}>
+            <div className="profile-analytics-two-col" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '20px' }}>
               {/* Creations pie-like display */}
               <div style={{
                 padding: '24px', borderRadius: '16px',
@@ -747,7 +854,7 @@ export default function ProfileDashboard({ userId, onBack, onNavigate }: Profile
             </div>
 
             {/* Top Chats & Top Research */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+            <div className="profile-analytics-two-col" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
               <div style={{
                 padding: '22px', borderRadius: '16px',
                 background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)',

@@ -64,7 +64,7 @@ export default function Gallery({ userId, onBack }: GalleryProps) {
   return (
     <div style={{ height: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
       {/* Top Bar */}
-      <div style={{
+      <div className="gal-topbar" style={{
         padding: '16px 24px',
         borderBottom: '1px solid rgba(255,255,255,0.06)',
         display: 'flex',
@@ -121,7 +121,7 @@ export default function Gallery({ userId, onBack }: GalleryProps) {
       </div>
 
       {/* Filter Bar */}
-      <div style={{
+      <div className="gal-filters" style={{
         padding: '12px 24px',
         display: 'flex',
         gap: '8px',
@@ -146,7 +146,7 @@ export default function Gallery({ userId, onBack }: GalleryProps) {
       </div>
 
       {/* Content */}
-      <div style={{ flex: 1, overflow: 'auto', padding: '24px' }}>
+      <div className="gal-content" style={{ flex: 1, overflow: 'auto', padding: '24px' }}>
         {!creations ? (
           <div style={{ textAlign: 'center', padding: '60px', color: 'rgba(255,255,255,0.3)' }}>
             Loading...
@@ -166,7 +166,7 @@ export default function Gallery({ userId, onBack }: GalleryProps) {
             </p>
           </div>
         ) : viewMode === 'grid' ? (
-          <div style={{
+          <div className="gal-grid" style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
             gap: '16px',
@@ -193,7 +193,7 @@ export default function Gallery({ userId, onBack }: GalleryProps) {
                 }}
               >
                 {/* Preview */}
-                <div style={{
+                <div className="gal-card-preview" style={{
                   height: '180px', background: '#0a0a0a',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   overflow: 'hidden',
@@ -256,10 +256,11 @@ export default function Gallery({ userId, onBack }: GalleryProps) {
           </div>
         ) : (
           /* List View */
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', maxWidth: '800px' }}>
+          <div className="gal-list" style={{ display: 'flex', flexDirection: 'column', gap: '8px', maxWidth: '800px' }}>
             {creations.map((item: any) => (
               <div
                 key={item._id}
+                className="gal-list-item"
                 onClick={() => setSelectedItem(item)}
                 style={{
                   display: 'flex', alignItems: 'center', gap: '16px',
@@ -271,7 +272,7 @@ export default function Gallery({ userId, onBack }: GalleryProps) {
                 onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.03)' }}
               >
                 {/* Thumbnail */}
-                <div style={{
+                <div className="gal-thumb" style={{
                   width: '56px', height: '56px', borderRadius: '8px', overflow: 'hidden', flexShrink: 0,
                   background: '#0a0a0a', display: 'flex', alignItems: 'center', justifyContent: 'center',
                 }}>
@@ -306,7 +307,7 @@ export default function Gallery({ userId, onBack }: GalleryProps) {
                 </div>
 
                 {/* Actions */}
-                <div style={{ display: 'flex', gap: '6px' }}>
+                <div className="gal-list-actions" style={{ display: 'flex', gap: '6px' }}>
                   {item.dataUrl && (
                     <button
                       onClick={(e) => { e.stopPropagation(); downloadItem(item.dataUrl, `creation-${item._id}.${item.type === 'video' ? 'mp4' : 'png'}`) }}
@@ -339,6 +340,7 @@ export default function Gallery({ userId, onBack }: GalleryProps) {
       {/* Lightbox Modal */}
       {selectedItem && (
         <div
+          className="gal-modal-overlay"
           onClick={() => setSelectedItem(null)}
           style={{
             position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(10px)',
@@ -347,6 +349,7 @@ export default function Gallery({ userId, onBack }: GalleryProps) {
           }}
         >
           <div
+            className="gal-modal"
             onClick={(e) => e.stopPropagation()}
             style={{
               maxWidth: '800px', width: '100%', borderRadius: '16px',
@@ -355,11 +358,11 @@ export default function Gallery({ userId, onBack }: GalleryProps) {
             }}
           >
             {/* Preview */}
-            <div style={{ maxHeight: '500px', overflow: 'hidden', background: '#000', display: 'flex', justifyContent: 'center' }}>
+            <div className="gal-modal-preview" style={{ maxHeight: '500px', overflow: 'hidden', background: '#000', display: 'flex', justifyContent: 'center' }}>
               {selectedItem.type === 'image' && selectedItem.dataUrl ? (
-                <img src={selectedItem.dataUrl} alt={selectedItem.prompt} style={{ maxWidth: '100%', maxHeight: '500px', objectFit: 'contain' }} />
+                <img className="gal-modal-img" src={selectedItem.dataUrl} alt={selectedItem.prompt} style={{ maxWidth: '100%', maxHeight: '500px', objectFit: 'contain' }} />
               ) : selectedItem.type === 'video' && selectedItem.dataUrl ? (
-                <video src={selectedItem.dataUrl} controls autoPlay loop style={{ maxWidth: '100%', maxHeight: '500px' }} />
+                <video className="gal-modal-vid" src={selectedItem.dataUrl} controls autoPlay loop style={{ maxWidth: '100%', maxHeight: '500px' }} />
               ) : (
                 <div style={{
                   width: '100%', height: '300px',
@@ -429,6 +432,68 @@ export default function Gallery({ userId, onBack }: GalleryProps) {
           </div>
         </div>
       )}
+      <style>{`
+        @media (max-width: 768px) {
+          .gal-topbar {
+            padding: 12px 16px !important;
+            gap: 10px !important;
+          }
+          .gal-filters {
+            padding: 10px 16px !important;
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch !important;
+            scrollbar-width: none !important;
+            flex-wrap: nowrap !important;
+          }
+          .gal-filters::-webkit-scrollbar {
+            display: none !important;
+          }
+          .gal-filters button {
+            flex-shrink: 0 !important;
+            padding: 6px 12px !important;
+            font-size: 12px !important;
+          }
+          .gal-content {
+            padding: 12px !important;
+          }
+          .gal-grid {
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)) !important;
+            gap: 10px !important;
+          }
+          .gal-card-preview {
+            height: 140px !important;
+          }
+          .gal-list-item {
+            flex-wrap: wrap !important;
+            gap: 10px !important;
+            padding: 10px 12px !important;
+          }
+          .gal-thumb {
+            width: 44px !important;
+            height: 44px !important;
+          }
+          .gal-list-actions {
+            width: 100% !important;
+            justify-content: flex-end !important;
+          }
+          .gal-modal-overlay {
+            padding: 16px !important;
+          }
+          .gal-modal {
+            max-width: 95vw !important;
+            border-radius: 12px !important;
+          }
+          .gal-modal-preview {
+            max-height: 250px !important;
+          }
+          .gal-modal-img {
+            max-height: 250px !important;
+          }
+          .gal-modal-vid {
+            max-height: 250px !important;
+          }
+        }
+      `}</style>
     </div>
   )
 }

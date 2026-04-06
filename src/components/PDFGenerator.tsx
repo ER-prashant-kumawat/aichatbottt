@@ -588,12 +588,12 @@ export default function PDFGenerator({ userId, onBack }: PDFGeneratorProps) {
   }
 
   return (
-    <div style={{
+    <div className="pdf-root" style={{
       height: '100%', display: 'flex', flexDirection: 'column',
       backgroundColor: '#1a1a1a', color: '#ececec', overflow: 'hidden',
     }}>
       {/* Header */}
-      <div style={{
+      <div className="pdf-header" style={{
         padding: '16px 24px', borderBottom: '1px solid rgba(255,255,255,0.08)',
         display: 'flex', alignItems: 'center', gap: '16px', flexShrink: 0,
       }}>
@@ -629,7 +629,7 @@ export default function PDFGenerator({ userId, onBack }: PDFGeneratorProps) {
         </div>
 
         {/* Tabs */}
-        <div style={{ marginLeft: 'auto', display: 'flex', gap: '4px', background: 'rgba(255,255,255,0.05)', borderRadius: '10px', padding: '3px' }}>
+        <div className="pdf-header-tabs" style={{ marginLeft: 'auto', display: 'flex', gap: '4px', background: 'rgba(255,255,255,0.05)', borderRadius: '10px', padding: '3px' }}>
           {(['write', 'history'] as const).map(tab => (
             <button key={tab} onClick={() => setActiveTab(tab)} style={{
               padding: '7px 16px', borderRadius: '8px', border: 'none', cursor: 'pointer',
@@ -644,15 +644,16 @@ export default function PDFGenerator({ userId, onBack }: PDFGeneratorProps) {
       </div>
 
       {activeTab === 'write' ? (
-        <div style={{ flex: 1, overflow: 'auto', padding: '24px', display: 'flex', gap: '24px' }}>
+        <div className="pdf-write-content" style={{ flex: 1, overflow: 'auto', padding: '24px', display: 'flex', gap: '24px' }}>
           {/* Left: Input */}
-          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '16px', minWidth: 0 }}>
+          <div className="pdf-left-panel" style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '16px', minWidth: 0 }}>
             {/* Upload Document */}
             <div>
               <label style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)', marginBottom: '6px', display: 'block', fontWeight: 500 }}>
                 Upload PDF / DOCX / TXT (auto-extract content)
               </label>
               <div
+                className="pdf-upload-area"
                 onClick={() => !docUploading && docInputRef.current?.click()}
                 style={{
                   padding: '16px', backgroundColor: 'rgba(245,158,11,0.04)',
@@ -776,7 +777,7 @@ export default function PDFGenerator({ userId, onBack }: PDFGeneratorProps) {
               <label style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)', marginBottom: '6px', display: 'block', fontWeight: 500 }}>
                 Upload Images
               </label>
-              <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-start', flexWrap: 'wrap' }}>
+              <div className="pdf-images-row" style={{ display: 'flex', gap: '10px', alignItems: 'flex-start', flexWrap: 'wrap' }}>
                 <button onClick={() => fileInputRef.current?.click()} style={{
                   padding: '12px 20px', backgroundColor: 'rgba(255,255,255,0.05)',
                   border: '1px dashed rgba(255,255,255,0.2)', borderRadius: '10px', color: 'rgba(255,255,255,0.6)',
@@ -816,13 +817,13 @@ export default function PDFGenerator({ userId, onBack }: PDFGeneratorProps) {
           </div>
 
           {/* Right: Options & Actions */}
-          <div style={{ width: '300px', flexShrink: 0, display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          <div className="pdf-right-panel" style={{ width: '300px', flexShrink: 0, display: 'flex', flexDirection: 'column', gap: '16px' }}>
             {/* Style Selection */}
             <div>
               <label style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)', marginBottom: '8px', display: 'block', fontWeight: 500 }}>
                 PDF Style
               </label>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+              <div className="pdf-style-list" style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                 {STYLES.map(s => (
                   <button key={s.id} onClick={() => setStyle(s.id)} style={{
                     padding: '12px 14px', backgroundColor: style === s.id ? `${s.color}15` : 'rgba(255,255,255,0.03)',
@@ -934,7 +935,7 @@ export default function PDFGenerator({ userId, onBack }: PDFGeneratorProps) {
         </div>
       ) : (
         /* History Tab */
-        <div style={{ flex: 1, overflow: 'auto', padding: '24px' }}>
+        <div className="pdf-history-content" style={{ flex: 1, overflow: 'auto', padding: '24px' }}>
           {!pdfHistory || pdfHistory.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '60px 20px', color: 'rgba(255,255,255,0.3)' }}>
               <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.3, marginBottom: '16px' }}>
@@ -945,7 +946,7 @@ export default function PDFGenerator({ userId, onBack }: PDFGeneratorProps) {
               <p style={{ fontSize: '13px' }}>Create your first PDF to see it here</p>
             </div>
           ) : (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '12px' }}>
+            <div className="pdf-history-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '12px' }}>
               {pdfHistory.map((pdf: any) => (
                 <div key={pdf._id} style={{
                   padding: '16px', backgroundColor: 'rgba(255,255,255,0.03)', borderRadius: '12px',
@@ -1003,7 +1004,7 @@ export default function PDFGenerator({ userId, onBack }: PDFGeneratorProps) {
 
       {/* Enhanced Preview Modal */}
       {showPreview && enhancedContent && (
-        <div style={{
+        <div className="pdf-preview-modal" style={{
           position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.7)',
           display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100,
           backdropFilter: 'blur(4px)',
@@ -1044,6 +1045,71 @@ export default function PDFGenerator({ userId, onBack }: PDFGeneratorProps) {
       <style>{`
         @keyframes spin {
           to { transform: rotate(360deg); }
+        }
+        @media (max-width: 768px) {
+          .pdf-root {
+            overflow-y: auto !important;
+          }
+          .pdf-header {
+            padding: 10px 12px !important;
+            flex-direction: column !important;
+            gap: 10px !important;
+          }
+          .pdf-header-tabs {
+            margin-left: 0 !important;
+            width: 100% !important;
+            justify-content: center !important;
+          }
+          .pdf-write-content {
+            padding: 12px !important;
+            flex-direction: column !important;
+            gap: 16px !important;
+          }
+          .pdf-left-panel {
+            min-width: 0 !important;
+          }
+          .pdf-left-panel textarea {
+            min-height: 150px !important;
+            width: 100% !important;
+          }
+          .pdf-right-panel {
+            width: 100% !important;
+            flex-shrink: 1 !important;
+          }
+          .pdf-right-panel button {
+            width: 100% !important;
+          }
+          .pdf-images-row {
+            flex-direction: column !important;
+          }
+          .pdf-images-row > div {
+            width: 60px !important;
+            height: 60px !important;
+          }
+          .pdf-preview-modal > div {
+            width: 95vw !important;
+            max-height: 85vh !important;
+            padding: 16px !important;
+          }
+          .pdf-preview-modal pre {
+            font-size: 12px !important;
+          }
+          .pdf-history-grid {
+            grid-template-columns: 1fr !important;
+          }
+          .pdf-history-content {
+            padding: 12px !important;
+          }
+          .pdf-upload-area {
+            padding: 12px !important;
+          }
+          .pdf-upload-area > div:first-child {
+            width: 36px !important;
+            height: 36px !important;
+          }
+          .pdf-style-list button {
+            padding: 10px 12px !important;
+          }
         }
       `}</style>
     </div>

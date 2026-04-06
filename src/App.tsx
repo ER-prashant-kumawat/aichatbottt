@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useMutation, useQuery } from 'convex/react'
 import { api } from '../convex/_generated/api'
 import Chat from './components/Chat'
@@ -129,10 +129,21 @@ const NAV_ITEMS: { id: AppPage; label: string; icon: JSX.Element; color: string 
   },
 ]
 
+function useIsMobile(breakpoint = 768) {
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= breakpoint)
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= breakpoint)
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [breakpoint])
+  return isMobile
+}
+
 function App() {
   const [userId, setUserId] = useState<string | null>(localStorage.getItem('userId'))
   const [threadId, setThreadId] = useState<string | null>(localStorage.getItem('threadId'))
-  const [sidebarOpen, setSidebarOpen] = useState(true)
+  const isMobile = useIsMobile()
+  const [sidebarOpen, setSidebarOpen] = useState(!isMobile)
   const [currentPage, setCurrentPage] = useState<AppPage>('dashboard')
   const createThread = useMutation(api.threads.createThread)
   const threads = useQuery(api.threads.getThreadsByUser, userId ? { userId: userId as any } : 'skip')
@@ -212,9 +223,10 @@ function App() {
     }
   }, [userId])
 
-  const navigateTo = (page: AppPage) => {
+  const navigateTo = useCallback((page: AppPage) => {
     setCurrentPage(page)
-  }
+    if (isMobile) setSidebarOpen(false)
+  }, [isMobile])
 
   if (!userId) {
     return <LandingPage onUserSet={setUserId} />
@@ -261,6 +273,18 @@ case 'pdf-generator':
     }}>
       <style>{appStyles}</style>
 
+      {/* Mobile Overlay */}
+      {isMobile && sidebarOpen && (
+        <div
+          onClick={() => setSidebarOpen(false)}
+          style={{
+            position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+            background: 'rgba(0,0,0,0.6)', zIndex: 998,
+            transition: 'opacity 0.3s ease',
+          }}
+        />
+      )}
+
       {/* Sidebar */}
       <div style={{
         width: sidebarOpen ? '260px' : '0px',
@@ -272,6 +296,15 @@ case 'pdf-generator':
         transition: 'all 0.3s ease',
         overflow: 'hidden',
         borderRight: sidebarOpen ? '1px solid rgba(255,255,255,0.06)' : 'none',
+        ...(isMobile ? {
+          position: 'fixed' as const,
+          top: 0,
+          left: sidebarOpen ? 0 : -260,
+          bottom: 0,
+          zIndex: 999,
+          width: '260px',
+          minWidth: '260px',
+        } : {}),
       }}>
         {/* Sidebar Header - Logo + Close */}
         <div style={{
@@ -400,6 +433,7 @@ case 'pdf-generator':
                           onClick={() => {
                             setThreadId(thread._id)
                             localStorage.setItem('threadId', thread._id)
+                            if (isMobile) setSidebarOpen(false)
                           }}
                           style={{
                             padding: '8px 10px',
