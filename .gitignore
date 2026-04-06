@@ -6,4 +6,4 @@ dist/
 build/
 *.log
 .convex/
-_generated/
+# _generated/
